@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoWorld - Tu Tienda de Vehículos de Dos Ruedas</title>
+    <style>
+        /* Reset y Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #e74c3c;
+            --secondary-color: #2c3e50;
+            --accent-color: #f39c12;
+            --text-color: #333;
+            --light-bg: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        /* Header y Navegación */
+        header {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #34495e 100%);
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=1600&h=600&fit=crop');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+        }
+
+        /* Sección de Categorías */
+        .categories {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .category-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .category-card:nth-child(1) .category-image {
+            background-image: url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=400&h=300&fit=crop');
+        }
+
+        .category-card:nth-child(2) .category-image {
+            background-image: url('https://images.unsplash.com/photo-1587387119725-039d3f72bda3?w=400&h=300&fit=crop');
+        }
+
+        .category-card:nth-child(3) .category-image {
+            background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop');
+        }
+
+        .category-card:nth-child(4) .category-image {
+            background-image: url('https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400&h=300&fit=crop');
+        }
+
+        .category-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .category-info h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .category-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        /* Sección de Productos Destacados */
+        .featured-products {
+            background: var(--light-bg);
+            padding: 4rem 2rem;
+        }
+
+        .products-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-card:nth-child(1) .product-image {
+            background-image: url('https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=400&h=300&fit=crop');
+        }
+
+        .product-card:nth-child(2) .product-image {
+            background-image: url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=400&h=300&fit=crop');
+        }
+
+        .product-card:nth-child(3) .product-image {
+            background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop');
+        }
+
+        .product-card:nth-child(4) .product-image {
+            background-image: url('https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400&h=300&fit=crop');
+        }
+
+        .product-card:nth-child(5) .product-image {
+            background-image: url('https://images.unsplash.com/photo-1558981852-426c6c22a060?w=400&h=300&fit=crop');
+        }
+
+        .product-card:nth-child(6) .product-image {
+            background-image: url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400&h=300&fit=crop');
+        }
+
+        .product-details {
+            padding: 1.5rem;
+        }
+
+        .product-details h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .product-details .btn {
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Asistente Virtual */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 1000;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .chat-button::before {
+            content: '💬';
+            font-size: 28px;
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .chat-window.active {
+            display: flex;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--secondary-color), #34495e);
+            color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .chat-header-info h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .chat-header-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .chat-close {
+            margin-left: auto;
+            cursor: pointer;
+            font-size: 24px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .chat-close:hover {
+            opacity: 1;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.bot {
+            align-items: flex-start;
+        }
+
+        .message.user {
+            align-items: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-bubble {
+            background: var(--white);
+            color: var(--text-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--white);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            margin-top: 0.3rem;
+        }
+
+        .quick-options {
+            padding: 0 1.5rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .quick-option {
+            padding: 0.5rem 1rem;
+            background: var(--light-bg);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .quick-option:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .chat-input-container {
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            color: var(--white);
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send:hover {
+            background: #c0392b;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem 1rem;
+            background: var(--white);
+            border-radius: 15px;
+            width: fit-content;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .typing-indicator.active {
+            display: block;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+            @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--secondary-color);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-window {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+            }
+
+            .chat-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">🏍️ MotoWorld</div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#categorias">Categorías</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Bienvenido a MotoWorld</h1>
+            <p>La mejor selección de motocicletas, cuatrimotos, motonetas y bicicletas</p>
+            <a href="#productos" class="btn">Ver Productos</a>
+        </div>
+    </section>
+
+    <!-- Categorías -->
+    <section class="categories" id="categorias">
+        <h2 class="section-title">Nuestras Categorías</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="category-image"></div>
+                <div class="category-info">
+                    <h3>Motocicletas</h3>
+                    <p>Deportivas, touring, cruiser y más. Encuentra tu moto ideal.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-image"></div>
+                <div class="category-info">
+                    <h3>Motonetas</h3>
+                    <p>Perfectas para la ciudad. Eficientes y económicas.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-image"></div>
+                <div class="category-info">
+                    <h3>Cuatrimotos</h3>
+                    <p>Aventura y diversión off-road para toda la familia.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-image"></div>
+                <div class="category-info">
+                    <h3>Bicicletas</h3>
+                    <p>Montaña, ruta, urbanas. Pedalea hacia tu destino.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos Destacados -->
+    <section class="featured-products" id="productos">
+        <div class="products-container">
+            <h2 class="section-title">Productos Destacados</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image"></div>
+                    <div class="product-details">
+                        <h4>Moto Deportiva X1000</h4>
+                        <p>Potencia y velocidad en cada kilómetro</p>
+                        <div class="product-price">$8,999</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image"></div>
+                    <div class="product-details">
+                        <h4>Motoneta Urban 150</h4>
+                        <p>Ideal para moverte en la ciudad</p>
+                        <div class="product-price">$2,499</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image"></div>
+                    <div class="product-details">
+                        <h4>Cuatrimoto Raptor 250</h4>
+                        <p>Domina cualquier terreno</p>
+                        <div class="product-price">$5,799</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image"></div>
+                    <div class="product-details">
+                        <h4>Bicicleta Mountain Pro</h4>
+                        <p>Aventura sin límites</p>
+                        <div class="product-price">$899</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image"></div>
+                    <div class="product-details">
+                        <h4>Moto Cruiser Classic</h4>
+                        <p>Estilo retro, tecnología moderna</p>
+                        <div class="product-price">$7,299</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image"></div>
+                    <div class="product-details">
+                        <h4>Bicicleta Eléctrica E-Bike</h4>
+                        <p>Pedalea con asistencia eléctrica</p>
+                        <div class="product-price">$1,499</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MotoWorld</h3>
+                <p>Tu tienda de confianza para motocicletas, cuatrimotos, motonetas y bicicletas desde 2010.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📞 Tel: (55) 1234-5678</li>
+                    <li>📧 Email: info@motoworld.com</li>
+                    <li>📍 Dirección: Av. Principal 123, CDMX</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <ul>
+                    <li>Lunes - Viernes: 9:00 - 19:00</li>
+                    <li>Sábados: 10:00 - 18:00</li>
+                    <li>Domingos: 10:00 - 14:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MotoWorld. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Asistente Virtual -->
+    <div class="chat-button" onclick="toggleChat()"></div>
+    
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="chat-avatar">🤖</div>
+            <div class="chat-header-info">
+                <h4>Asistente MotoWorld</h4>
+                <p>En línea</p>
+            </div>
+            <div class="chat-close" onclick="toggleChat()">×</div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-bubble">
+                    ¡Hola! 👋 Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?
+                </div>
+                <div class="message-time">Ahora</div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="quick-options">
+            <div class="quick-option" onclick="sendQuickMessage('Ver motocicletas')">🏍️ Motocicletas</div>
+            <div class="quick-option" onclick="sendQuickMessage('Ver motonetas')">🛵 Motonetas</div>
+            <div class="quick-option" onclick="sendQuickMessage('Horarios')">🕐 Horarios</div>
+            <div class="quick-option" onclick="sendQuickMessage('Ubicación')">📍 Ubicación</div>
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
+            <button class="chat-send" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Chat Functions
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.classList.toggle('active');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // Simular respuesta del bot
+                setTimeout(() => {
+                    showTypingIndicator();
+                    setTimeout(() => {
+                        hideTypingIndicator();
+                        const response = getBotResponse(message);
+                        addMessage(response, 'bot');
+                    }, 1500);
+                }, 500);
+            }
+        }
+
+        function sendQuickMessage(message) {
+            addMessage(message, 'user');
+            
+            setTimeout(() => {
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const response = getBotResponse(message);
+                    addMessage(response, 'bot');
+                }, 1500);
+            }, 500);
+        }
+
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            messageDiv.innerHTML = `
+                <div class="message-bubble">${text}</div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            const typingIndicator = document.getElementById('typingIndicator');
+            messagesContainer.insertBefore(messageDiv, typingIndicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').classList.add('active');
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').classList.remove('active');
+        }
+
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('motocicleta') || lowerMessage.includes('moto')) {
+                return '🏍️ Contamos con una gran variedad de motocicletas deportivas, touring y cruiser. Precios desde $7,299. ¿Te gustaría ver nuestro catálogo completo?';
+            } else if (lowerMessage.includes('motoneta')) {
+                return '🛵 Nuestras motonetas son perfectas para la ciudad. Tenemos modelos desde $2,499. Son económicas y muy eficientes. ¿Necesitas más información?';
+            } else if (lowerMessage.includes('cuatrimoto')) {
+                return '🚜 Las cuatrimotos son ideales para aventuras off-road. Tenemos el modelo Raptor 250 a $5,799. ¿Te interesa conocer las especificaciones?';
+            } else if (lowerMessage.includes('bicicleta')) {
+                return '🚴 Tenemos bicicletas de montaña, urbanas y eléctricas desde $899. ¿Qué tipo de bicicleta estás buscando?';
+            } else if (lowerMessage.includes('horario')) {
+                return '🕐 Nuestros horarios son: Lunes a Viernes 9:00-19:00, Sábados 10:00-18:00, Domingos 10:00-14:00. ¡Te esperamos!';
+            } else if (lowerMessage.includes('ubicación') || lowerMessage.includes('direccion')) {
+                return '📍 Nos encontramos en Av. Principal 123, CDMX. También puedes contactarnos al (55) 1234-5678 o escribirnos a info@motoworld.com';
+            } else if (lowerMessage.includes('precio')) {
+                return '💰 Nuestros precios varían según el producto. Motocicletas desde $7,299, motonetas desde $2,499, cuatrimotos desde $5,799 y bicicletas desde $899. ¿Qué vehículo te interesa?';
+            } else if (lowerMessage.includes('hola') || lowerMessage.includes('hi')) {
+                return '¡Hola! 👋 Bienvenido a MotoWorld. Estoy aquí para ayudarte a encontrar el vehículo perfecto. ¿Qué estás buscando hoy?';
+            } else if (lowerMessage.includes('gracias')) {
+                return '¡De nada! 😊 Si tienes más preguntas, no dudes en escribirme. ¡Estoy aquí para ayudarte!';
+            } else {
+                return 'Gracias por tu mensaje. Puedo ayudarte con información sobre nuestros productos, horarios y ubicación. ¿En qué te puedo asistir específicamente?';
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
