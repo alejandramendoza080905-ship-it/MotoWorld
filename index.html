@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoWorld - Tu Tienda de Vehículos de Dos Ruedas</title>
+    <style>
+        /* Reset y Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #e74c3c;
+            --secondary-color: #2c3e50;
+            --accent-color: #f39c12;
+            --text-color: #333;
+            --light-bg: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        /* Header y Navegación */
+        header {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #34495e 100%);
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23222" width="1200" height="600"/><path fill="%23333" d="M0 300 Q300 200 600 300 T1200 300 V600 H0 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.3s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+        }
+
+        /* Sección de Categorías */
+        .categories {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--white);
+        }
+
+        .category-card:nth-child(1) .category-image {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .category-card:nth-child(2) .category-image {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .category-card:nth-child(3) .category-image {
+            background: linear-gradient(45deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .category-card:nth-child(4) .category-image {
+            background: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .category-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .category-info h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .category-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        /* Sección de Productos Destacados */
+        .featured-products {
+            background: var(--light-bg);
+            padding: 4rem 2rem;
+        }
+
+        .products-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--white);
+        }
+
+        .product-details {
+            padding: 1.5rem;
+        }
+
+        .product-details h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .product-details .btn {
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--secondary-color);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">🏍️ MotoWorld</div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#categorias">Categorías</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Bienvenido a MotoWorld</h1>
+            <p>La mejor selección de motocicletas, cuatrimotos, motonetas y bicicletas</p>
+            <a href="#productos" class="btn">Ver Productos</a>
+        </div>
+    </section>
+
+    <!-- Categorías -->
+    <section class="categories" id="categorias">
+        <h2 class="section-title">Nuestras Categorías</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="category-image">🏍️</div>
+                <div class="category-info">
+                    <h3>Motocicletas</h3>
+                    <p>Deportivas, touring, cruiser y más. Encuentra tu moto ideal.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-image">🛵</div>
+                <div class="category-info">
+                    <h3>Motonetas</h3>
+                    <p>Perfectas para la ciudad. Eficientes y económicas.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-image">🚜</div>
+                <div class="category-info">
+                    <h3>Cuatrimotos</h3>
+                    <p>Aventura y diversión off-road para toda la familia.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-image">🚴</div>
+                <div class="category-info">
+                    <h3>Bicicletas</h3>
+                    <p>Montaña, ruta, urbanas. Pedalea hacia tu destino.</p>
+                    <a href="#" class="btn">Ver más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos Destacados -->
+    <section class="featured-products" id="productos">
+        <div class="products-container">
+            <h2 class="section-title">Productos Destacados</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">🏍️</div>
+                    <div class="product-details">
+                        <h4>Moto Deportiva X1000</h4>
+                        <p>Potencia y velocidad en cada kilómetro</p>
+                        <div class="product-price">$8,999</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🛵</div>
+                    <div class="product-details">
+                        <h4>Motoneta Urban 150</h4>
+                        <p>Ideal para moverte en la ciudad</p>
+                        <div class="product-price">$2,499</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🚜</div>
+                    <div class="product-details">
+                        <h4>Cuatrimoto Raptor 250</h4>
+                        <p>Domina cualquier terreno</p>
+                        <div class="product-price">$5,799</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🚴</div>
+                    <div class="product-details">
+                        <h4>Bicicleta Mountain Pro</h4>
+                        <p>Aventura sin límites</p>
+                        <div class="product-price">$899</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🏍️</div>
+                    <div class="product-details">
+                        <h4>Moto Cruiser Classic</h4>
+                        <p>Estilo retro, tecnología moderna</p>
+                        <div class="product-price">$7,299</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">🚴</div>
+                    <div class="product-details">
+                        <h4>Bicicleta Eléctrica E-Bike</h4>
+                        <p>Pedalea con asistencia eléctrica</p>
+                        <div class="product-price">$1,499</div>
+                        <a href="#" class="btn">Comprar Ahora</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MotoWorld</h3>
+                <p>Tu tienda de confianza para motocicletas, cuatrimotos, motonetas y bicicletas desde 2010.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>📞 Tel: (55) 1234-5678</li>
+                    <li>📧 Email: info@motoworld.com</li>
+                    <li>📍 Dirección: Av. Principal 123, CDMX</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Horario</h3>
+                <ul>
+                    <li>Lunes - Viernes: 9:00 - 19:00</li>
+                    <li>Sábados: 10:00 - 18:00</li>
+                    <li>Domingos: 10:00 - 14:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MotoWorld. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
